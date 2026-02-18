@@ -1,0 +1,57 @@
+﻿@model LMS.Models.Publisher
+
+@{
+    ViewData["Title"] = Model.PublisherID == 0 ? "Add Publisher" : "Edit Publisher";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5>@ViewData["Title"]</h5>
+                </div>
+
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("AddPublisher", "Publisher", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.PublisherID)
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.PublisherName, new { @class = "form-label" })
+                            <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.PublisherName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PublisherName, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input" })
+                                    <label class="form-check-label">Active</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })
+                                    <label class="form-check-label">Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-action="PublisherList" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                @(Model.PublisherID == 0 ? "Save" : "Update")
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

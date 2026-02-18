@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Category List";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-9 col-sm-12">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-tags-fill me-1 text-primary"></i>
+                    Category List
+                </h5>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button"
+                            class="btn btn-outline-success btn-sm"
+                            id="excelDownload"
+                            data-grid="categoryGrid"
+                            data-file="CategoryList"
+                            title="Excel Download">
+                        <i class="bi bi-file-earmark-excel me-1"></i>
+                        Excel
+                    </button>
+
+                    <button class="btn btn-primary btn-sm" onclick="openAddCategoryModal()">
+                        Add Category
+                    </button>
+                </div>
+            </div>
+
+            <table id="categoryGrid"></table>
+            <div id="categoryPager"></div>
+
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+@await Html.PartialAsync("_CategoryModal", new LMS.Models.Category())
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="@Url.Content("~/js/categoryList.min.js")" asp-append-version="true"></script>
+
+}

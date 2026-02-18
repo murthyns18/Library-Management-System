@@ -1,0 +1,196 @@
+﻿@using Newtonsoft.Json
+@using LMS.Models
+@inject IConfiguration configuration
+
+@{
+    var apiURL = Convert.ToString(configuration.GetSection("API")["URL"]);
+
+    var menuJson = Context.Session.GetString("MenuDetails");
+    var menuDetails = string.IsNullOrEmpty(menuJson) ? new List<Menu>() : JsonConvert.DeserializeObject<List<Menu>>(menuJson);
+
+    var userName = Context.Session.GetString("UserName") ?? "Guest";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>LMS - @ViewData["Title"]</title>
+
+    <link rel="icon" type="image/jpg" href="@Url.Content("~/images/favbook.jpg")" />
+    <link href="@Url.Content("~/assets/plugins/jqGrid/css/jquery-ui.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/plugins/jqGrid/css/ui.jqgrid.min.css")" rel="stylesheet" />
+    <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/site.min.css")" asp-append-version="true" />
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.min.css")" asp-append-version="true" />
+    <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap-icons/bootstrap-icons.css")" />
+
+
+    <script>
+        var ROOT = '@Url.Content("~/")';
+        var TOKEN = '@Context.Session.GetString("Token")';
+        var apiURL = '@configuration.GetSection("API")["URL"]';
+    </script>
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid d-flex align-items-center">
+
+                <a class="navbar-brand me-auto" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-book-fill book-icon"></i> Library Management System
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarContent" aria-controls="navbarContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+
+                    <ul class="navbar-nav mx-auto">
+                        @if (menuDetails != null && menuDetails.Any())
+                        {
+                            foreach (var menu in menuDetails.Where(m => m.IsRead).OrderBy(m => m.DisplayOrder))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Content(menu.MenuURL)">
+                                        @menu.DisplayName
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown profile-nav">
+
+                            <a class="nav-link dropdown-toggle d-flex align-items-center"
+                               href="#"
+                               id="userDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+
+                                <i class="bi bi-person-circle fs-5 me-1"></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow"
+                                aria-labelledby="userDropdown">
+
+                                <li class="dropdown-item-text text-muted small">
+                                    Signed in as <br />
+                                    <strong>@userName</strong>
+                                </li>
+
+                                <li><hr class="dropdown-divider" /></li>
+
+                                <li>
+                                    <a class="dropdown-item text-danger" asp-controller="Login"asp-action="Logout">
+                                        <i class="bi bi-box-arrow-right me-1"></i>
+                                        Logout
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container flex-fill">
+        @if (TempData["Message"] != null)
+        {
+            var type = TempData["Type"] ?? "success";
+            <div class="alert alert-msg alert-@type notification text-center mx-auto mt-2" style=" width:350px;">
+                @TempData["Message"]
+            </div>
+        } 
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; 2026 - LMS
+        </div>
+    </footer>
+
+    <div class="modal fade" id="alertpopup" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert-modal-header bg-primary text-white border-0">
+                    <h5 class="modal-title">Alert</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body alert-modal-body" id="popupmesssage"></div>
+                <div class="modal-footer alert-modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmpopup" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header confirm-modal-header bg-warning border-0">
+                    <h5 class="modal-title">Confirm</h5>
+                </div>
+                <div class="modal-body confirm-modal-body" id="confirmpopupmesssage"></div>
+                <div class="modal-footer confirm-modal-footer">
+                    <button id="ConfirmOKbutton" class="btn btn-danger">Yes</button>
+                    <button id="ConfirmCancelbutton" class="btn btn-secondary">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginSuccessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 shadow-sm text-center rounded-3">
+                <div class="modal-header justify-content-center border-0 pb-0">
+                    <div class="rounded-circle bg-success bg-opacity-10 p-2">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                    </div>
+                </div>
+                <div class="modal-body pt-2 pb-4">
+                    <h6 class="fw-bold text-success mb-1"> Login Successful</h6>
+                    <p class="mb-1"> Welcome To LMS, <strong class="text-dark">@userName</strong> </p>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/jqGrid/js/grid.locale-en.min.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/assets/plugins/jqGrid/js/jquery-ui.min.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/assets/plugins/jqGrid/js/jquery.jqGrid.min.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/assets/plugins/aes/aes.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/assets/plugins/jqgrid/js/jszip.min.js")"></script>
+    <script src="@Url.Content("~/js/layout.min.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/site.min.js")" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
+    

@@ -1,0 +1,83 @@
+﻿@model LMS.Models.Book
+
+<div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <form id="bookForm" method="post" action="/Book/AddBook">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.BookId)
+
+                <div class="modal-header bg-primary text-white py-2">
+                    <h6 class="modal-title" id="bookModalTitle">Add Book</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body py-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-1"></div>
+
+                    <div class="row g-2">
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Title, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.Title, new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.ISBN, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.ISBN, new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="ISBN" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.PublisherID, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.DropDownListFor(m => m.PublisherID, Model.PublisherList, "-- Select Publisher --", new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="PublisherID" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Price, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.Price, new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.CategoryID, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.DropDownListFor(m => m.CategoryID, Model.CategoryList, "-- Select Category --", new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="CategoryID" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Quantity, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="Quantity" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 d-none small" id="statusContainer">
+                            @Html.LabelFor(m => m.IsActive, new { @class = "form-label mb-1" })
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", id = "IsActive_True" })
+                                    <label class="form-check-label" for="IsActive_True">Active</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input", id = "IsActive_False" })
+                                    <label class="form-check-label" for="IsActive_False">Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

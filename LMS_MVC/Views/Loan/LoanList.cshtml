@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Loan List";
+}
+@model IList<LMS.Models.LoanHeader>
+
+<div class="container-fluid mt-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0"><i class="bi bi-arrow-left-right me-1 text-primary"></i> Loan List</h5>
+
+        <div class="d-flex align-items-center gap-2">
+            <button type="button"
+                    class="btn btn-outline-success btn-sm"
+                    id="excelDownload"
+                    data-grid="loanGrid"
+                    data-file="LoanList"
+                    title="Excel Download">
+                <i class="bi bi-file-earmark-excel me-1"></i>
+                Excel
+            </button>
+
+            <button class="btn btn-primary btn-sm" onclick="openAddLoanModal()">
+                Add Loan
+            </button>
+        </div>
+    </div>
+
+    @Html.AntiForgeryToken()
+
+    <table id="loanGrid"></table>
+    <div id="loanGrid_pager"></div>
+</div>
+
+@await Html.PartialAsync("_AddLoanModal", new LMS.Models.LoanHeader())
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="@Url.Content("~/js/loanList.min.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/addLoan.min.js")" asp-append-version="true"></script>
+
+}

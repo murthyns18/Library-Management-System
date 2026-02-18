@@ -1,0 +1,225 @@
+﻿@model LMS.Models.User
+
+@{
+    ViewData["Title"] = Model.UserID == 0 ? "Add User" : "Edit User";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">@ViewData["Title"]</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post" action="/User/AddUser" enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.UserID)
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                <div class="row g-3">
+
+                    <!-- USER NAME -->
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.UserName, new { @class = "form-label small" })
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm" })
+                        <span asp-validation-for="UserName" class="text-danger small"></span>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Email, new { @class = "form-label small" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-sm" })
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <!-- PROFILE PIC -->
+                    <div class="col-md-3">
+                        <label class="form-label small">
+                            Profile Picture <span class="text-danger">*</span>
+                        </label>
+                        <input type="file" name="ProfilePic" class="form-control form-control-sm" />
+                        <span asp-validation-for="ProfilePic" class="text-danger small"></span>
+                    </div>
+
+                    <!-- AADHAR -->
+                    <div class="col-md-3">
+                        <label class="form-label small">
+                            Aadhar Document <span class="text-danger">*</span>
+                        </label>
+                        <input type="file" name="AadharDoc" class="form-control form-control-sm" />
+                        <span asp-validation-for="AadharDoc" class="text-danger small"></span>
+                    </div>
+
+                    <!-- MOBILE -->
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.MobileNumber, new { @class = "form-label small" })
+                        @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control form-control-sm" })
+                        <span asp-validation-for="MobileNumber" class="text-danger small"></span>
+                    </div>
+
+                    <!-- ROLE -->
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.RoleID, new { @class = "form-label small" })
+                        @Html.DropDownListFor(
+                        m => m.RoleID,
+                            Model.RoleList,
+                            "-- Select --",
+                            new { @class = "form-control form-control-sm" })
+                        <span asp-validation-for="RoleID" class="text-danger small"></span>
+                    </div>
+
+                    <!-- GENDER -->
+                    <div class="col-md-3">
+                        <label class="form-label small">Gender</label>
+                        <div class="border rounded p-1">
+                            <div class="form-check small">
+                                <input class="form-check-input" asp-for="Gender" type="radio" value="Male" /> Male
+                            </div>
+                            <div class="form-check small">
+                                <input class="form-check-input" asp-for="Gender" type="radio" value="Female" /> Female
+                            </div>
+                            <div class="form-check small">
+                                <input class="form-check-input" asp-for="Gender" type="radio" value="Other" /> Other
+                            </div>
+                        </div>
+                        <span asp-validation-for="Gender" class="text-danger small"></span>
+                    </div>
+
+                    <!-- LANGUAGES -->
+                    <div class="col-md-3">
+                        <label class="form-label small">Languages Known</label>
+                        <div class="border rounded p-1 small">
+                            <input type="hidden" name="LanguagesKnownCsv" id="LanguagesKnownCsv" />
+
+                            <div class="form-check">
+                                <input type="checkbox" class="langChk" value="English"> English
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="langChk" value="Kannada"> Kannada
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="langChk" value="Hindi"> Hindi
+                            </div>
+
+                            <span asp-validation-for="LanguagesKnownCsv" class="text-danger small"></span>
+
+                        </div>
+                       
+                    </div>
+
+                    <!-- LOCATION -->
+                    <div class="col-md-3">
+                        <label class="form-label small">Location</label>
+
+                        <div id="locationMenu" class="location-menu">
+                            <div class="menu-column">
+                                <div class="menu-title">Country</div>
+                                <ul id="countryList" class="menu-list"></ul>
+                            </div>
+
+                            <div class="menu-column d-none" id="stateColumn">
+                                <div class="menu-title">State</div>
+                                <ul id="stateList" class="menu-list"></ul>
+                            </div>
+
+                            <div class="menu-column d-none" id="cityColumn">
+                                <div class="menu-title">City</div>
+                                <ul id="cityList" class="menu-list"></ul>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="CountryId" id="CountryId" />
+                        <input type="hidden" name="StateId" id="StateId" />
+                        <input type="hidden" name="CityId" id="CityId" />
+                    </div>
+
+                    <!-- DOB -->
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.DOB, new { @class = "form-label small" })
+                        @Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}",new { @class = "form-control form-control-sm", type = "date" })
+                        <span asp-validation-for="DOB" class="text-danger small"></span>
+                    </div>
+
+                    <!-- INTERESTED CATEGORIES -->
+                    <div class="col-md-3">
+                        <label class="form-label small">Interested Categories</label>
+                        <select id="InterestedCategories" multiple class="form-control form-control-sm">
+                            <option value="Books">Books</option>
+                            <option value="Music">Music</option>
+                            <option value="Sports">Sports</option>
+                        </select>
+
+                        <input type="hidden" name="InterestedCategoriesCsv" id="InterestedCategoriesCsv" />
+
+                        <span asp-validation-for="InterestedCategoriesCsv" class="text-danger small"></span>
+
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Address, new { @class = "form-label small" })
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control form-control-sm", rows = 2 })
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    @if (Model.UserID == 0)
+                    {
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Password, new { @class = "form-label small" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label small" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-sm" })
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                    }
+
+                    <!-- STATUS -->
+                    @if (Model.UserID > 0)
+                    {
+                        <div class="col-md-3">
+                            <label class="form-label small">Status</label>
+                            <div class="border rounded p-1">
+                                <div class="form-check small">
+                                    <input class="form-check-input" asp-for="Status" type="radio" value="true" /> Active
+                                </div>
+                                <div class="form-check small">
+                                    <input class="form-check-input" asp-for="Status" type="radio" value="false" /> Inactive
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- TERMS -->
+                    <div class="col-md-12 text-center mt-2">
+                        <input asp-for="TermsAccepted" type="checkbox" />
+                        <label class="ms-1 small">I accept Terms & Conditions</label>
+                        <br />
+                        <span asp-validation-for="TermsAccepted" class="text-danger small"></span>
+                    </div>
+
+                </div>
+
+                <div class="text-end mt-4">
+                    <a asp-action="ListUser" class="btn btn-secondary btn-sm">Cancel</a>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                       Submit
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/userList.js"></script>
+}

@@ -1,0 +1,106 @@
+﻿@model LMS.Models.LoanHeader
+@Html.AntiForgeryToken()
+
+<form method="post" asp-action="CreateLoan" asp-controller="Loan">
+
+    <div class="container-fluid mt-4 px-4">
+        <h4>Add Loan</h4>
+
+        
+        <input type="hidden" id="UserId" name="UserId" />
+
+        <div id="loanDetailsContainer"></div>
+
+        <div class="card mb-3">
+            <div class="card-header">User Details</div>
+            <div class="card-body row">
+
+                <div class="col-md-4">
+                    <label>User</label>
+                    <select id="ddlUser" class="form-control"></select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Name</label>
+                    <input id="txtName" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Email</label>
+                    <input id="txtEmail" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-4 mt-2">
+                    <label>Address</label>
+                    <input id="txtAddress" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-4 mt-2">
+                    <label>Mobile</label>
+                    <input id="txtMobile" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD BOOKS -->
+        <div class="card mb-3">
+            <div class="card-header">Add Books (Max 4)</div>
+            <div class="card-body row align-items-end">
+
+                <div class="col-md-4">
+                    <label>Publisher</label>
+                    <select id="ddlPublisher" class="form-control"></select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Book</label>
+                    <select id="ddlBook" class="form-control"></select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Qty</label>
+                    <input class="form-control text-center" value="1" readonly />
+                </div>
+
+                <div class="col-md-2">
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="addBook()">
+                        Add Book
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SELECTED BOOKS -->
+        <table class="table table-bordered mt-3" id="tblSelectedBooks">
+            <thead class="table-success">
+                <tr>
+                    <th width="80">Action</th>
+                    <th>Book</th>
+                    <th>Publisher</th>
+                    <th width="80">Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        No books added
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ACTIONS -->
+       
+    </div>
+
+</form>
+ <div class="mt-3">
+        <button type="submit" class="btn btn-success" onclick="return submitLoan();"> Submit</button>
+        <a href="/Loan/LoanList" class="btn btn-secondary ms-2"> Cancel</a>
+ </div>
+
+@section Scripts {
+    <script src="~/js/addLoan.min.js"></script>
+}

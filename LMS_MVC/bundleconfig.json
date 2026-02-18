@@ -1,0 +1,137 @@
+[
+
+  {
+    "outputFileName": "wwwroot/js/layout.min.js",
+    "inputFiles": [ "wwwroot/js/layout.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [ "wwwroot/js/site.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/userList.min.js",
+    "inputFiles": [ "wwwroot/js/userList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/bookList.min.js",
+    "inputFiles": [ "wwwroot/js/booklist.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/categoryList.min.js",
+    "inputFiles": [ "wwwroot/js/categoryList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/publisherList.min.js",
+    "inputFiles": [ "wwwroot/js/publisherList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/roleList.min.js",
+    "inputFiles": [ "wwwroot/js/roleList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/loanList.min.js",
+    "inputFiles": [ "wwwroot/js/loanList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/login.min.js",
+    "inputFiles": [ "wwwroot/js/login.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/addLoan.min.js",
+    "inputFiles": [ "wwwroot/js/addLoan.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/menuList.min.js",
+    "inputFiles": [ "wwwroot/js/menuList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/menuPermissionList.min.js",
+    "inputFiles": [ "wwwroot/js/menuPermissionList.js" ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+
+
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [ "wwwroot/css/site.css" ],
+    "minify": { "enabled": true },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/css/custom.min.css",
+    "inputFiles": [ "wwwroot/css/custom.css" ],
+    "minify": { "enabled": true },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/css/home.min.css",
+    "inputFiles": [ "wwwroot/css/home.css" ],
+    "minify": { "enabled": true },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/css/login.min.css",
+    "inputFiles": [ "wwwroot/css/login.css" ],
+    "minify": { "enabled": true },
+    "sourceMap": true
+  }
+]

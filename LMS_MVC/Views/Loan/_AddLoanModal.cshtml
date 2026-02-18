@@ -1,0 +1,107 @@
+﻿@model LMS.Models.LoanHeader
+
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <form method="post" asp-action="CreateLoan" asp-controller="Loan">
+                @Html.AntiForgeryToken()
+
+                <div class="modal-header bg-primary text-white py-2">
+                    <h6 class="modal-title">Add Loan</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body py-2">
+
+                    <input type="hidden" id="UserId" name="UserId" />
+
+
+                    <div id="loanDetailsContainer"></div>
+
+                    <div class="card mb-2">
+                        <div class="card-header py-1 small fw-semibold">User Details</div>
+                        <div class="card-body row g-2 py-2">
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">User</label>
+                                <select id="ddlUser" class="form-control form-control-sm"></select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">Name</label>
+                                <input id="txtName" class="form-control form-control-sm" readonly />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">Email</label>
+                                <input id="txtEmail" class="form-control form-control-sm" readonly />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">Address</label>
+                                <input id="txtAddress" class="form-control form-control-sm" readonly />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">Mobile</label>
+                                <input id="txtMobile" class="form-control form-control-sm" readonly />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card mb-2">
+                        <div class="card-header py-1 small fw-semibold">Add Books (Max 4)</div>
+                        <div class="card-body row g-2 align-items-end py-2">
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">Publisher</label>
+                                <select id="ddlPublisher" class="form-control form-control-sm"></select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label small mb-1">Book</label>
+                                <select id="ddlBook" class="form-control form-control-sm"></select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="form-label small mb-1">Qty</label>
+                                <input class="form-control form-control-sm text-center" value="1" readonly />
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary btn-sm w-100" onclick="addBook()">Add</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-sm mt-2" id="tblSelectedBooks">
+                        <thead class="table-success small">
+                            <tr>
+                                <th width="60">Action</th>
+                                <th>Book</th>
+                                <th>Publisher</th>
+                                <th width="60">Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody class="small">
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No books added</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm" onclick="return submitLoan();">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LMS - @ViewData["Title"]</title>
+    <link rel="icon" type="image/jpg" href="@Url.Content("~/images/favbook.jpg")" />
+
+    <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" asp-append-version="true" />
+    <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap-icons/bootstrap-icons.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/login.min.css")" asp-append-version="true" />
+
+</head>
+
+<body>
+
+    <div class="login-card text-center">
+
+    
+        <div class="avatar mb-3">
+            <i class="bi bi-person"></i>
+        </div>
+
+        <h5 class="mb-4">Sign in to LMS</h5>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert notification @TempData["Messageclass"]">
+                @TempData["Message"]
+            </div>
+        }
+
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="floating-group">
+                @Html.TextBoxFor(m => m.Email, new {
+                @class = "floating-input", autofocus = "autofocus", placeholder = " "})
+                <label>Email</label>
+                <i class="bi bi-envelope input-icon"></i>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="floating-group position-relative">
+                @Html.PasswordFor(m => m.Password, new { @class = "floating-input",placeholder = " ", id = "Password" })
+                <label>Password</label>
+                <i class="bi bi-eye-slash toggle-password" id="togglePassword"></i>
+                @Html.ValidationMessageFor( m => m.Password,"", new { @class = "text-danger small" })
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-login">Login</button>
+        }
+        <div style="margin-top: 10px">
+            <a href="/Login/ForgotPassword" style="text-decoration: none;">
+                Forgot password?
+            </a>
+        </div>
+
+
+    </div>
+
+    <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js")"></script>
+    <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/js/login.min.js")"></script>
+    <script>
+        sessionStorage.removeItem("welcomeModalShown");
+    </script>
+
+</body>
+</html>

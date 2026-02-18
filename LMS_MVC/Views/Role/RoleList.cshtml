@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Role List";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-9 col-sm-12">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-badge-fill me-1 text-primary"></i>
+                    Role List
+                </h5>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button"
+                            class="btn btn-outline-success btn-sm"
+                            id="excelDownload"
+                            data-grid="roleGrid"
+                            data-file="RoleList">
+                        <i class="bi bi-file-earmark-excel me-1"></i>
+                        Excel
+                    </button>
+
+                    <button class="btn btn-primary btn-sm" onclick="openAddRoleModal()">
+                        Add Role
+                    </button>
+                </div>
+            </div>
+
+            <table id="roleGrid"></table>
+            <div id="rolePager"></div>
+
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+@await Html.PartialAsync("_RoleModal", new LMS_API.Models.Role())
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="@Url.Content("~/js/roleList.min.js")" asp-append-version="true"></script>
+
+}

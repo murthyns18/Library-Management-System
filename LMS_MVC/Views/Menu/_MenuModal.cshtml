@@ -1,0 +1,82 @@
+﻿@model LMS.Models.MenuMaster
+
+<div class="modal fade" id="menuModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <form id="menuForm" method="post" action="/Menu/AddMenu">
+                @Html.AntiForgeryToken()
+
+                <div class="modal-header bg-primary text-white py-2">
+                    <h6 class="modal-title" id="menuModalTitle">Add Menu</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body py-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-1"></div>
+
+                    <div class="row g-2">
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.MenuId, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.MenuId, new { @class = "form-control form-control-sm", id = "MenuId" })
+                            <span asp-validation-for="MenuId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.MenuName, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.MenuName, new { @class = "form-control form-control-sm", id = "MenuName" })
+                            <span asp-validation-for="MenuName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.DisplayName, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control form-control-sm", id = "DisplayName" })
+                            <span asp-validation-for="DisplayName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.MenuUrl, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.MenuUrl, new { @class = "form-control form-control-sm", id = "MenuUrl" })
+                            <span asp-validation-for="MenuUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.MenuLevel, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.MenuLevel, new { @class = "form-control form-control-sm", id = "MenuLevel" })
+                            <span asp-validation-for="MenuLevel" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.DisplayOrder, new { @class = "form-label small mb-1" }) <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.DisplayOrder, new { @class = "form-control form-control-sm", id = "DisplayOrder" })
+                            <span asp-validation-for="DisplayOrder" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 d-none small" id="statusContainer">
+                            @Html.LabelFor(m => m.IsActive, new { @class = "form-label mb-1" })
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", id = "IsActive_True" })
+                                    <label class="form-check-label" for="IsActive_True">Active</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input", id = "IsActive_False" })
+                                    <label class="form-check-label" for="IsActive_False">Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

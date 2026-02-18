@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Book List";
+}
+@model IList< Book >
+
+<div class="container-fluid mt-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0"> <i class="bi bi-book-fill me-1 text-primary"></i> Book List</h5>
+
+        <div class="d-flex align-items-center gap-2">
+           <div class="excel-btn">
+                <button type="button"
+                        class="btn btn-outline-success btn-sm"
+                        id="excelDownload"
+                        data-grid="bookGrid"
+                        data-file="BookList"
+                        title="Excel Download">
+                    <i class="bi bi-file-earmark-excel me-1"></i>
+                    Excel
+                </button>
+           </div>
+
+            <button class="btn btn-primary btn-sm" onclick="openAddModal()">Add Book</button>
+        </div>
+    </div>
+
+    <table id="bookGrid"></table>
+    <div id="bookPager"></div>
+</div>
+
+
+@await Html.PartialAsync("_BookModal", new Book
+{
+    PublisherList = ViewBag.Publishers,
+    CategoryList = ViewBag.Categories
+})
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="@Url.Content("~/js/bookList.min.js")" asp-append-version="true"></script>
+
+}
